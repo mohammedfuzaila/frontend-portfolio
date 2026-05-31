@@ -4,7 +4,7 @@ const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-fuzailportfoli
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 10000,
+  timeout: 60000, // 60s — Render free tier can take ~30-50s on cold start
 })
 
 // Attach JWT token
