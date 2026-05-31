@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09090e" />
+      <stop offset="100%" stop-color="#01334d" />
+    </linearGradient>
+    <!-- Primary Blue Gradient -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#80cbf4" />
+      <stop offset="100%" stop-color="#00a3f5" />
+    </linearGradient>
+  </defs>
+  <!-- Background Squircle -->
+  <rect width="512" height="512" rx="140" fill="url(#bgGrad)" />
+  
+  <!-- Inner glowing borders -->
+  <rect x="16" y="16" width="480" height="480" rx="124" fill="none" stroke="url(#primaryGrad)" stroke-width="12" stroke-opacity="0.4" />
+  
+  <!-- Brackets and Letter styling -->
+  <g transform="translate(46, 46)">
+    <!-- Left Angle Bracket < -->
+    <path d="M 120 100 L 40 210 L 120 320" fill="none" stroke="url(#primaryGrad)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Stylized "f" in the center -->
+    <path d="M 230 350 L 230 140 C 230 100, 260 70, 300 70 L 320 70" fill="none" stroke="#ffffff" stroke-width="32" stroke-linecap="round" />
+    <path d="M 190 190 L 270 190" fill="none" stroke="#ffffff" stroke-width="32" stroke-linecap="round" />
+    
+    <!-- Right Angle Bracket > -->
+    <path d="M 300 100 L 380 210 L 300 320" fill="none" stroke="url(#primaryGrad)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

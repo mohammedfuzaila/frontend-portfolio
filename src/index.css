@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────── */
+:root {
+  --primary: #6C63FF;
+  --accent: #00D4FF;
+  --bg-primary: #FAFAFE;
+  --bg-secondary: #F4F6FF;
+  --text-primary: #0F0E17;
+  --text-secondary: #4A4A6A;
+  --text-muted: #9494B8;
+  --border: rgba(108, 99, 255, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+  background: transparent;
+  color: #a3a3a3;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+/* ─── Selection ─────────────────────────────────────────────────── */
+::selection {
+  @apply bg-primary-500/30 text-white;
+}
+
+/* ─── Components ─────────────────────────────────────────────────── */
+@layer components {
+  /* Solid Cards */
+  .glass-card {
+    @apply backdrop-blur-3xl border border-white/10 relative z-10 rounded-2xl transition-all duration-500;
+    background: linear-gradient(145deg, rgba(20, 25, 35, 0.7), rgba(5, 10, 15, 0.5));
+    box-shadow: 
+      0 10px 40px -10px rgba(0, 0, 0, 0.7), 
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+  }
+  .glass-card:hover {
+    @apply border-primary-500/50;
+    box-shadow: 
+      0 20px 50px -10px rgba(0, 124, 240, 0.2), 
+      0 0 20px rgba(0, 124, 240, 0.3), 
+      inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-nav {
+    @apply backdrop-blur-xl border-b border-white/5;
+    background: rgba(6, 7, 10, 0.7);
+  }
+  
+  .glass-card-dark {
+    @apply backdrop-blur-2xl border border-white/5 rounded-2xl transition-all duration-500;
+    background: linear-gradient(145deg, rgba(20, 30, 45, 0.5), rgba(10, 15, 20, 0.3));
+  }
+  .glass-card-dark:hover {
+    @apply border-accent-500/30;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-accent-400 bg-clip-text text-transparent;
+  }
+  .gradient-text-purple {
+    @apply bg-gradient-to-r from-purple-600 to-primary-500 bg-clip-text text-transparent;
+  }
+
+  /* Section */
+  .section {
+    @apply py-20 lg:py-32 relative z-10 px-4 sm:px-6 lg:px-8;
+  }
+  .section-container {
+    @apply max-w-7xl mx-auto;
+  }
+  .section-title {
+    @apply font-display text-4xl md:text-5xl font-bold text-white mb-4;
+  }
+  .section-subtitle {
+    @apply text-lg text-slate-400 max-w-2xl;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-glow hover:shadow-glow-accent;
+    background: linear-gradient(135deg, #00a3f5 0%, #80cbf4 100%);
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-primary-400 bg-primary-500/10 border border-primary-500/20 transition-all duration-300 hover:bg-primary-500/20 hover:scale-105 active:scale-95;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200;
+  }
+
+  /* Input */
+  .input-field {
+    @apply w-full px-4 py-3 bg-[#0c101a]/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/50 transition-colors backdrop-blur-md;
+  }
+
+  /* Badge */
+  .tech-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-primary-100 border border-primary-500/30 backdrop-blur-md;
+    background: linear-gradient(145deg, rgba(0, 163, 245, 0.2), rgba(0, 163, 245, 0.05));
+  }
+  .tech-badge-accent {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-accent-100 border border-accent-500/30 backdrop-blur-md;
+    background: linear-gradient(145deg, rgba(128, 203, 244, 0.2), rgba(128, 203, 244, 0.05));
+  }
+
+  /* Skeleton */
+  .skeleton {
+    @apply animate-pulse bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 rounded-lg;
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* ─── Utilities ──────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-glow;
+  }
+
+  /* Animated gradient bg */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #f0f0ff, #eef2ff, #f0f9ff, #fafffe, #fff0f9);
+    background-size: 400% 400%;
+    animation: gradient 12s ease infinite;
+  }
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────── */
+@keyframes gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(-8px) rotate(-2deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blob {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* ─── Page Transitions ───────────────────────────────────────────── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+/* ─── Custom Cursor ──────────────────────────────────────────────── */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+}
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(108, 99, 255, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease;
+}
+
+/* ─── Admin ──────────────────────────────────────────────────────── */
+.admin-sidebar {
+  @apply fixed left-0 top-0 h-full w-64 bg-slate-900 border-r border-slate-800 z-50 flex flex-col;
+}
+.admin-nav-item {
+  @apply flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg mx-1.5 transition-all duration-200 cursor-pointer;
+}
+.admin-nav-item.active {
+  @apply text-white bg-primary-600/20 border-l-2 border-primary-500;
+}
+.admin-card {
+  @apply bg-slate-800 border border-slate-700 rounded-xl p-4 md:p-6;
+}
