@@ -3,6 +3,13 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Sphere, MeshDistortMaterial, Float, Stars, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
+// Suppress THREE.Clock deprecation warning from @react-three/fiber
+const originalWarn = console.warn
+console.warn = (...args) => {
+  if (args[0] && typeof args[0] === 'string' && args[0].includes('THREE.Clock: This module has been deprecated')) return
+  originalWarn(...args)
+}
+
 function TechCore() {
   const meshRef = useRef()
 
