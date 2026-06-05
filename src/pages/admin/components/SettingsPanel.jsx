@@ -142,6 +142,7 @@ export default function SettingsPanel() {
       const res = await updateHero(data)
       toast.success('Hero section updated')
       if (res.data?.profile_image_url) setCurrentHeroImg(res.data.profile_image_url)
+      if (res.data?.resume_file_url) setCurrentResumeUrl(res.data.resume_file_url)
     } catch {
       toast.error('Failed to save Hero details')
     } finally {

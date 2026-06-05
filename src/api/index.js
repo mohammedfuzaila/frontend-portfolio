@@ -95,9 +95,9 @@ export const updateCertificate = (id, data) => api.patch(`/certificates/${id}/`,
 export const deleteCertificate = (id) => api.delete(`/certificates/${id}/`)
 
 // Singleton updates
-export const updateHero = (data) => api.patch('/hero/', data)
-export const updateAbout = (data) => api.patch('/about/', data)
-export const updateSeo = (data) => api.patch('/seo/', data)
+export const updateHero = (data) => api.patch('/hero/', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+export const updateAbout = (data) => api.patch('/about/', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+export const updateSeo = (data) => api.patch('/seo/', data, { headers: { 'Content-Type': 'multipart/form-data' } })
 export const updateSiteSettings = (data) => api.patch('/settings/', data)
 
 // Social Links CRUD
