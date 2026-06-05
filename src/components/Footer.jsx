@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, Code2, Heart, ArrowUp } from 'lucide-react'
-import { FaGithub as Github, FaLinkedin as Linkedin } from 'react-icons/fa'
+import { FaGithub as Github, FaLinkedin as Linkedin, FaTwitter as Twitter } from 'react-icons/fa'
+import { fetchSocialLinks } from '../api'
 
 const quickLinks = [
   { label: 'Home', href: '#home' },
@@ -12,14 +13,14 @@ const quickLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
-const socials = [
-  { icon: Github, href: 'https://github.com/mohammedfuzaila', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/fuzail', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:anaikarmohammedfuzail57@gmail.com', label: 'Email' },
-  { icon: Phone, href: 'tel:+918870539407', label: 'Phone' },
-]
+const iconMap = { github: Github, linkedin: Linkedin, twitter: Twitter, mail: Mail, phone: Phone }
 
 export default function Footer() {
+  const [socials, setSocials] = useState([])
+
+  useEffect(() => {
+    fetchSocialLinks().then(({ data }) => setSocials(data?.results || data || [])).catch(() => {})
+  }, [])
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   const handleNav = (href) => {
@@ -52,20 +53,22 @@ export default function Footer() {
               Full Stack Developer crafting web experiences with precision, creativity, and passion for clean code.
             </p>
             <div className="flex gap-2">
-              {socials.map(({ icon: Icon, href, label }) => (
+              {socials.map((s) => {
+                const Icon = iconMap[s.platform?.toLowerCase()] || Mail
+                return (
                 <motion.a
-                  key={label}
-                  href={href}
+                  key={s.id || s.platform}
+                  href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
+                  aria-label={s.platform}
                   whileHover={{ scale: 1.15, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-primary-400 hover:border-primary-500/50 transition-all duration-200"
                 >
                   <Icon className="w-4 h-4" />
                 </motion.a>
-              ))}
+              )})}
             </div>
           </div>
 

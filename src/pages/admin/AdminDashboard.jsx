@@ -632,6 +632,14 @@ function MessagesView() {
   )
 }
 
+const FIXED_SOCIALS = [
+  { platform: 'GitHub', icon: 'github', order: 1 },
+  { platform: 'LinkedIn', icon: 'linkedin', order: 2 },
+  { platform: 'Twitter', icon: 'twitter', order: 3 },
+  { platform: 'Email', icon: 'mail', order: 4 },
+  { platform: 'Phone', icon: 'phone', order: 5 }
+];
+
 function SocialsView() {
   const [socials, setSocials] = useState([])
   const [selectedSocial, setSelectedSocial] = useState(null)
@@ -643,27 +651,16 @@ function SocialsView() {
 
   useEffect(() => { loadData() }, [])
 
-  const handleDelete = async (id) => {
-    if (!confirm('Delete this social link?')) return
-    try {
-      await deleteSocialLink(id)
-      setSocials((s) => s.filter((x) => x.id !== id))
-      toast.success('Social link deleted')
-    } catch {
-      toast.error('Failed to delete social link')
-    }
-  }
+  const displaySocials = FIXED_SOCIALS.map(fixed => {
+    const existing = socials.find(s => s.platform.toLowerCase() === fixed.platform.toLowerCase() || s.icon === fixed.icon)
+    return existing ? existing : { platform: fixed.platform, icon: fixed.icon, url: 'Not configured', order: fixed.order }
+  })
 
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold text-white">Social Links</h2>
-        <button
-          onClick={() => { setSelectedSocial(null); setIsModalOpen(true) }}
-          className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors"
-        >
-          <PlusCircle className="w-4 h-4" /> Add Social Link
-        </button>
+        <div className="text-sm text-slate-400">Permanently configured links</div>
       </div>
       <div className="admin-card overflow-x-auto">
         <table className="w-full text-sm">
@@ -676,28 +673,26 @@ function SocialsView() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800">
-            {socials.map((s) => (
-              <tr key={s.id} className="hover:bg-slate-700/30 transition-colors">
+            {displaySocials.map((s) => (
+              <tr key={s.id || s.platform} className="hover:bg-slate-700/30 transition-colors">
                 <td className="py-3 px-4 font-medium text-white">{s.platform}</td>
                 <td className="py-3 px-4 hidden md:table-cell text-slate-400 font-mono truncate max-w-xs">{s.url}</td>
                 <td className="py-3 px-4 hidden lg:table-cell text-slate-400">{s.order}</td>
                 <td className="py-3 px-4">
                   <div className="flex items-center gap-2 justify-end">
-                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-accent-400 transition-colors"><Globe className="w-4 h-4" /></a>
+                    {s.id && s.url !== 'Not configured' && <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-accent-400 transition-colors"><Globe className="w-4 h-4" /></a>}
                     <button
-                      onClick={() => { setSelectedSocial(s); setIsModalOpen(true) }}
+                      onClick={() => { setSelectedSocial(s.url === 'Not configured' ? { ...s, url: '' } : s); setIsModalOpen(true) }}
                       className="text-slate-400 hover:text-primary-400 transition-colors"
                     >
                       <Edit3 className="w-4 h-4" />
                     </button>
-                    <button onClick={() => handleDelete(s.id)} className="text-slate-400 hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {socials.length === 0 && <p className="text-slate-500 text-sm text-center py-8">No social links found.</p>}
       </div>
 
       <SocialFormModal

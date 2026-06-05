@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react'
 import { FaGithub as Github, FaLinkedin as Linkedin, FaTwitter as Twitter } from 'react-icons/fa'
-import { sendContact } from '../api'
+import { sendContact, fetchSocialLinks } from '../api'
 import toast from 'react-hot-toast'
 
 const contactInfo = [
@@ -11,16 +11,17 @@ const contactInfo = [
   { icon: MapPin, label: 'Location', value: 'Pernambut, Tamil Nadu, India', href: null },
 ]
 
-const socials = [
-  { icon: Github, href: 'https://github.com/mohammedfuzaila', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/fuzail', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-]
+const iconMap = { github: Github, linkedin: Linkedin, twitter: Twitter, mail: Mail, phone: Phone }
 
 export default function ContactSection() {
+  const [socials, setSocials] = useState([])
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    fetchSocialLinks().then(({ data }) => setSocials(data?.results || data || [])).catch(() => {})
+  }, [])
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -105,20 +106,22 @@ export default function ContactSection() {
             <div>
               <p className="text-sm text-slate-400 font-medium mb-3">Follow Me</p>
               <div className="flex gap-2">
-                {socials.map(({ icon: Icon, href, label }) => (
+                {socials.map((s) => {
+                  const Icon = iconMap[s.platform?.toLowerCase()] || Mail
+                  return (
                   <motion.a
-                    key={label}
-                    href={href}
+                    key={s.id || s.platform}
+                    href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={label}
+                    aria-label={s.platform}
                     whileHover={{ scale: 1.15, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-10 h-10 glass-card flex items-center justify-center rounded-xl text-slate-500 hover:text-primary-600 hover:shadow-glow transition-all duration-200"
                   >
                     <Icon className="w-5 h-5" />
                   </motion.a>
-                ))}
+                )})}
               </div>
             </div>
 
