@@ -21,14 +21,15 @@ export default function TestimonialsSection() {
     }).catch(() => { setTestimonials([]) })
   }, [])
 
-  if (!testimonials || testimonials.length === 0) return null;
-
   useEffect(() => {
+    if (!testimonials || testimonials.length === 0) return;
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % testimonials.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [testimonials.length])
+  }, [testimonials])
+
+  if (!testimonials || testimonials.length === 0) return null;
 
   const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length)
   const next = () => setCurrent((c) => (c + 1) % testimonials.length)
