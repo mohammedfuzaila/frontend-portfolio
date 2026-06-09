@@ -6,6 +6,7 @@ import SkillsSection from '../components/SkillsSection'
 import ServicesSection from '../components/ServicesSection'
 import ProjectsSection from '../components/ProjectsSection'
 import ExperienceSection from '../components/ExperienceSection'
+import CertificatesSection from '../components/CertificatesSection'
 import TestimonialsSection from '../components/TestimonialsSection'
 import BlogSection from '../components/BlogSection'
 import ContactSection from '../components/ContactSection'
@@ -20,6 +21,7 @@ export default function HomePage() {
     show_services: true,
     show_projects: true,
     show_experience: true,
+    show_certificates: true,
     show_testimonials: true,
     show_blog: true,
     show_contact: true,
@@ -41,6 +43,7 @@ export default function HomePage() {
         {settings.show_services && <ServicesSection />}
         {settings.show_projects && <ProjectsSection />}
         {settings.show_experience && <ExperienceSection />}
+        {settings.show_certificates && <CertificatesSection />}
         {settings.show_testimonials && <TestimonialsSection />}
         {settings.show_blog && <BlogSection />}
         {settings.show_contact && <ContactSection />}
