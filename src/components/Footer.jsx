@@ -54,13 +54,15 @@ export default function Footer() {
             </p>
             <div className="flex gap-2">
               {socials.map((s) => {
+                const isPhone = s.platform?.toLowerCase() === 'phone'
+                const href = isPhone && !s.url.startsWith('tel:') ? `tel:${s.url}` : s.url
                 const Icon = iconMap[s.platform?.toLowerCase()] || Mail
                 return (
                 <motion.a
                   key={s.id || s.platform}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={href}
+                  target={isPhone ? undefined : "_blank"}
+                  rel={isPhone ? undefined : "noopener noreferrer"}
                   aria-label={s.platform}
                   whileHover={{ scale: 1.15, y: -3 }}
                   whileTap={{ scale: 0.95 }}

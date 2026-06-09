@@ -70,11 +70,13 @@ export default function SocialFormModal({ isOpen, onClose, social, onSuccess }) 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-400 mb-1">Profile / Link URL *</label>
+          <label className="block text-sm font-medium text-slate-400 mb-1">
+            {formData.platform.toLowerCase() === 'phone' ? 'Mobile Number *' : 'Profile / Link URL *'}
+          </label>
           <input
-            type="url"
+            type={formData.platform.toLowerCase() === 'phone' ? 'tel' : 'url'}
             className="input-field text-sm"
-            placeholder="https://github.com/username"
+            placeholder={formData.platform.toLowerCase() === 'phone' ? 'e.g. +91 8870539407' : 'https://github.com/username'}
             value={formData.url}
             onChange={e => setFormData({ ...formData, url: e.target.value })}
             required
