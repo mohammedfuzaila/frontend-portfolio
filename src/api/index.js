@@ -63,6 +63,7 @@ export const adminLogin = (credentials) => api.post('/auth/login/', credentials)
 export const fetchDashboardStats = () => api.get('/admin/stats/')
 export const fetchAllMessages = () => api.get('/contact/')
 export const markMessageRead = (id) => api.patch(`/admin/messages/${id}/read/`)
+export const deleteMessage = (id) => api.delete(`/contact/${id}/`)
 
 // Skills CRUD
 export const createSkill = (data) => api.post('/skills/', data)

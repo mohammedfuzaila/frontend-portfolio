@@ -11,7 +11,7 @@ import {
   fetchBlogs, fetchTestimonials, fetchCertificates, fetchExperience,
   fetchSocialLinks, deleteProject, deleteSkill, deleteBlog, 
   deleteExperience, deleteCertificate, deleteTestimonial, deleteSocialLink,
-  markMessageRead
+  markMessageRead, deleteMessage
 } from '../../api'
 import toast from 'react-hot-toast'
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
@@ -602,6 +602,15 @@ function MessagesView() {
     } catch { toast.error('Failed') }
   }
 
+  const handleDelete = async (id) => {
+    if (!confirm('Delete this message permanently?')) return
+    try {
+      await deleteMessage(id)
+      setMessages((m) => m.filter((msg) => msg.id !== id))
+      toast.success('Message deleted')
+    } catch { toast.error('Failed to delete message') }
+  }
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-white mb-6">Contact Messages</h2>
@@ -618,11 +627,20 @@ function MessagesView() {
                 <div className="font-medium text-slate-300 text-sm mb-1">{msg.subject}</div>
                 <p className="text-slate-400 text-sm leading-relaxed">{msg.message}</p>
               </div>
-              {!msg.is_read && (
-                <button onClick={() => handleRead(msg.id)} className="text-xs text-primary-400 hover:text-primary-300 flex-shrink-0 px-2.5 py-1 bg-primary-500/10 rounded-lg hover:bg-primary-500/20 transition-all font-medium">
-                  Mark Read
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {!msg.is_read && (
+                  <button onClick={() => handleRead(msg.id)} className="text-xs text-primary-400 hover:text-primary-300 px-2.5 py-1 bg-primary-500/10 rounded-lg hover:bg-primary-500/20 transition-all font-medium">
+                    Mark Read
+                  </button>
+                )}
+                <button
+                  onClick={() => handleDelete(msg.id)}
+                  className="text-slate-400 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-red-500/10"
+                  title="Delete message"
+                >
+                  <Trash2 className="w-4 h-4" />
                 </button>
-              )}
+              </div>
             </div>
           </div>
         ))}
