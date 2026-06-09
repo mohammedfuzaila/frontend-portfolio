@@ -50,15 +50,12 @@ const highlights = [
 ]
 
 export default function AboutSection() {
-  const [about, setAbout] = useState(fallback)
+  const [about, setAbout] = useState(null)
   const [profileImg, setProfileImg] = useState('')
 
   useEffect(() => {
     fetchAbout().then(({ data }) => {
       if (data && data.bio_1) setAbout(data)
-      if (data && data.profile_image_url) {
-        setProfileImg(data.profile_image_url)
-      }
     }).catch(() => {})
 
     fetchHero().then(({ data }) => {
@@ -67,6 +64,8 @@ export default function AboutSection() {
       }
     }).catch(() => {})
   }, [])
+
+  if (!about) return null;
 
   return (
     <section id="about" className="section bg-transparent relative overflow-hidden">

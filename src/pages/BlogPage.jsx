@@ -15,14 +15,14 @@ const fallback = [
 const cardColors = ['from-primary-400 to-violet-500', 'from-rose-400 to-pink-500', 'from-emerald-400 to-teal-500', 'from-amber-400 to-orange-500', 'from-indigo-400 to-blue-500']
 
 export default function BlogPage() {
-  const [blogs, setBlogs] = useState(fallback)
+  const [blogs, setBlogs] = useState([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchBlogs({ is_published: true }).then(({ data }) => {
       const d = data?.results || data
-      if (Array.isArray(d) && d.length > 0) setBlogs(d)
+      if (Array.isArray(d)) setBlogs(d)
     }).catch(() => {}).finally(() => setLoading(false))
   }, [])
 

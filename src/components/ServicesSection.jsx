@@ -67,14 +67,16 @@ function ServiceCard({ service, index }) {
 }
 
 export default function ServicesSection() {
-  const [services, setServices] = useState(fallbackServices)
+  const [services, setServices] = useState(null)
 
   useEffect(() => {
     fetchServices().then(({ data }) => {
       const d = data?.results || data
-      if (Array.isArray(d) && d.length > 0) setServices(d)
-    }).catch(() => {})
+      if (Array.isArray(d)) setServices(d)
+    }).catch(() => { setServices([]) })
   }, [])
+
+  if (!services || services.length === 0) return null;
 
   return (
     <section id="services" className="section bg-transparent relative overflow-hidden">

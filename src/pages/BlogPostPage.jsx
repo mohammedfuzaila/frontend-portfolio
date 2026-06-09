@@ -26,8 +26,8 @@ export default function BlogPostPage() {
     fetchBlogs({ is_published: true }).then(({ data }) => {
       const d = data?.results || data
       const found = Array.isArray(d) ? d.find((b) => b.slug === slug) : null
-      setPost(found || fallback)
-    }).catch(() => setPost(fallback)).finally(() => setLoading(false))
+      setPost(found || null)
+    }).catch(() => setPost(null)).finally(() => setLoading(false))
   }, [slug])
 
   if (loading) return (
@@ -35,6 +35,8 @@ export default function BlogPostPage() {
       <div className="w-8 h-8 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
     </div>
   )
+
+  if (!post) return <div className="min-h-screen flex items-center justify-center text-slate-400">Post not found</div>;
 
   return (
     <div className="min-h-screen bg-gradient-hero">

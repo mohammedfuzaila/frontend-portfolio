@@ -21,14 +21,16 @@ const fallback = [
 ]
 
 export default function ExperienceSection() {
-  const [items, setItems] = useState(fallback)
+  const [items, setItems] = useState(null)
 
   useEffect(() => {
     fetchExperience().then(({ data }) => {
       const d = data?.results || data
-      if (Array.isArray(d) && d.length > 0) setItems(d)
-    }).catch(() => {})
+      if (Array.isArray(d)) setItems(d)
+    }).catch(() => { setItems([]) })
   }, [])
+
+  if (!items || items.length === 0) return null;
 
   return (
     <section id="experience" className="section bg-transparent relative overflow-hidden">

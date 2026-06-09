@@ -244,7 +244,7 @@ function ProjectEditModal({ project, onClose, onSubmit }) {
 }
 
 export default function ProjectsSection() {
-  const [projects, setProjects] = useState(fallbackProjects)
+  const [projects, setProjects] = useState(null)
   const [activeCategory, setActiveCategory] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
   const [editing, setEditing] = useState(null)
@@ -253,9 +253,11 @@ export default function ProjectsSection() {
   useEffect(() => {
     fetchProjects().then(({ data }) => {
       const items = data?.results || data
-      if (Array.isArray(items) && items.length > 0) setProjects(items)
-    }).catch(() => {})
+      if (Array.isArray(items)) setProjects(items)
+    }).catch(() => { setProjects([]) })
   }, [])
+
+  if (!projects || projects.length === 0) return null;
 
   const filtered = activeCategory === 'all'
     ? projects

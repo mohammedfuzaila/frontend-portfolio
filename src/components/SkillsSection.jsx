@@ -69,15 +69,17 @@ function SkillCard({ skill, index }) {
 }
 
 export default function SkillsSection() {
-  const [skills, setSkills] = useState(fallbackSkills)
+  const [skills, setSkills] = useState(null)
   const [activeCategory, setActiveCategory] = useState('all')
 
   useEffect(() => {
     fetchSkills().then(({ data }) => {
       const items = data?.results || data
-      if (Array.isArray(items) && items.length > 0) setSkills(items)
-    }).catch(() => {})
+      if (Array.isArray(items)) setSkills(items)
+    }).catch(() => { setSkills([]) })
   }, [])
+
+  if (!skills || skills.length === 0) return null;
 
   const filtered = activeCategory === 'all'
     ? skills

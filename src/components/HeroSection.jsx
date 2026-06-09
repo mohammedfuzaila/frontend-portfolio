@@ -17,20 +17,22 @@ const fallbackHero = {
 const iconMap = { github: Github, linkedin: Linkedin, mail: Mail }
 
 export default function HeroSection() {
-  const [hero, setHero] = useState(fallbackHero)
+  const [hero, setHero] = useState(null)
   const [socials, setSocials] = useState([])
 
   useEffect(() => {
-    fetchHero().then(({ data }) => setHero(data || fallbackHero)).catch(() => {})
+    fetchHero().then(({ data }) => setHero(data || null)).catch(() => {})
     fetchSocialLinks().then(({ data }) => setSocials(data?.results || data || [])).catch(() => {})
   }, [])
+
+  if (!hero) return null;
 
   const scrollToProjects = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const nameParts = (hero.name || 'Anaikar Mohammed Fuzail').trim().split(' ')
-  const lastName = nameParts.length > 1 ? nameParts.pop() : hero.name || 'Fuzail'
+  const nameParts = (hero.name || '').trim().split(' ')
+  const lastName = nameParts.length > 1 ? nameParts.pop() : hero.name || ''
   const firstName = nameParts.length > 1 ? nameParts.join(' ') : ''
 
   return (

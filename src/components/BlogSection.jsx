@@ -17,14 +17,16 @@ const cardColors = [
 ]
 
 export default function BlogSection() {
-  const [blogs, setBlogs] = useState(fallback)
+  const [blogs, setBlogs] = useState(null)
 
   useEffect(() => {
     fetchBlogs({ is_published: true }).then(({ data }) => {
       const d = data?.results || data
-      if (Array.isArray(d) && d.length > 0) setBlogs(d.slice(0, 3))
-    }).catch(() => {})
+      if (Array.isArray(d)) setBlogs(d.slice(0, 3))
+    }).catch(() => { setBlogs([]) })
   }, [])
+
+  if (!blogs || blogs.length === 0) return null;
 
   return (
     <section id="blog" className="section bg-transparent relative overflow-hidden">

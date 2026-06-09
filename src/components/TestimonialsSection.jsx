@@ -11,15 +11,17 @@ const fallback = [
 ]
 
 export default function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState(fallback)
+  const [testimonials, setTestimonials] = useState(null)
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
     fetchTestimonials().then(({ data }) => {
       const d = data?.results || data
-      if (Array.isArray(d) && d.length > 0) setTestimonials(d)
-    }).catch(() => {})
+      if (Array.isArray(d)) setTestimonials(d)
+    }).catch(() => { setTestimonials([]) })
   }, [])
+
+  if (!testimonials || testimonials.length === 0) return null;
 
   useEffect(() => {
     const interval = setInterval(() => {
