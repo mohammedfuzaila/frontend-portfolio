@@ -15,9 +15,13 @@ export default function SocialFormModal({ isOpen, onClose, social, onSuccess }) 
 
   useEffect(() => {
     if (social) {
+      let displayUrl = social.url || ''
+      if (social.platform?.toLowerCase() === 'phone' && displayUrl.startsWith('https://phone.local/')) {
+        displayUrl = decodeURIComponent(displayUrl.replace('https://phone.local/', ''))
+      }
       setFormData({
         platform: social.platform || '',
-        url: social.url || '',
+        url: displayUrl,
         icon: social.icon || '',
         order: social.order || 0,
         is_active: social.is_active !== false
@@ -37,11 +41,16 @@ export default function SocialFormModal({ isOpen, onClose, social, onSuccess }) 
     e.preventDefault()
     setLoading(true)
     try {
+      const payload = { ...formData }
+      if (payload.platform.toLowerCase() === 'phone' && !payload.url.startsWith('http')) {
+        payload.url = `https://phone.local/${encodeURIComponent(payload.url)}`
+      }
+
       if (social?.id) {
-        await updateSocialLink(social.id, formData)
+        await updateSocialLink(social.id, payload)
         toast.success('Social link updated successfully')
       } else {
-        await createSocialLink(formData)
+        await createSocialLink(payload)
         toast.success('Social link created successfully')
       }
       onSuccess()

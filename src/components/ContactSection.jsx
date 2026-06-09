@@ -108,7 +108,14 @@ export default function ContactSection() {
               <div className="flex gap-2">
                 {socials.map((s) => {
                   const isPhone = s.platform?.toLowerCase() === 'phone'
-                  const href = isPhone && !s.url.startsWith('tel:') ? `tel:${s.url}` : s.url
+                  let href = s.url
+                  if (isPhone) {
+                    if (href.startsWith('https://phone.local/')) {
+                      href = `tel:${decodeURIComponent(href.replace('https://phone.local/', ''))}`
+                    } else if (!href.startsWith('tel:')) {
+                      href = `tel:${href}`
+                    }
+                  }
                   const Icon = iconMap[s.platform?.toLowerCase()] || Mail
                   return (
                   <motion.a
