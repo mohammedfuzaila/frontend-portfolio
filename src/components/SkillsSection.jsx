@@ -68,7 +68,7 @@ function SkillCard({ skill, index }) {
   )
 }
 
-export default function SkillsSection() {
+export default function SkillsSection({ backendOnline }) {
   const [skills, setSkills] = useState(null)
   const [activeCategory, setActiveCategory] = useState('all')
 
@@ -78,6 +78,28 @@ export default function SkillsSection() {
       if (Array.isArray(items)) setSkills(items)
     }).catch(() => { setSkills([]) })
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="skills" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <span className="tech-badge mb-4 inline-block">Skills</span>
+            <h2 className="section-title">
+              Tech Stack & <span className="gradient-text">Expertise</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Technologies and tools I work with to build amazing products
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!skills || skills.length === 0) return null;
 

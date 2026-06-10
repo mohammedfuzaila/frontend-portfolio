@@ -7,6 +7,18 @@ const api = axios.create({
   timeout: 60000, // 60s — Render free tier can take ~30-50s on cold start
 })
 
+// ─── Wake-up ping ───────────────────────────────────────────
+// Fire immediately when this module loads (before any component mounts).
+// This starts warming the Render free-tier server as early as possible.
+axios.get(`${API_BASE}/health/`, { timeout: 60000 }).catch(() => {})
+
+// ─── Keep-alive pinger ──────────────────────────────────────
+// Render free tier sleeps after 15 min of inactivity.
+// Ping every 14 min to keep it awake while the tab is open.
+setInterval(() => {
+  axios.get(`${API_BASE}/health/`, { timeout: 10000 }).catch(() => {})
+}, 14 * 60 * 1000)
+
 // Attach JWT token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token')

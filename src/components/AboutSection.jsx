@@ -49,7 +49,7 @@ const highlights = [
   { icon: Lightbulb, title: 'Innovation', desc: 'Creative thinking for modern challenges' },
 ]
 
-export default function AboutSection() {
+export default function AboutSection({ backendOnline }) {
   const [about, setAbout] = useState(null)
   const [profileImg, setProfileImg] = useState('')
 
@@ -64,6 +64,27 @@ export default function AboutSection() {
       }
     }).catch(() => {})
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="about" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <span className="tech-badge mb-4 inline-block">About Me</span>
+            <h2 className="section-title">Passionate Developer & <span className="gradient-text">Creative Thinker</span></h2>
+            <p className="section-subtitle mx-auto text-center">
+              Building meaningful digital experiences with code and creativity
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!about) return null;
 

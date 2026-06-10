@@ -10,7 +10,7 @@ const fallback = [
   { id: 4, name: 'Happy Customer', role: 'Small Business Owner', company: '', message: 'Working with Fuzail was a pleasure. He understood our requirements perfectly and created a beautiful, functional website that our customers love. Professional and reliable!', rating: 5 },
 ]
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ backendOnline }) {
   const [testimonials, setTestimonials] = useState(null)
   const [current, setCurrent] = useState(0)
 
@@ -28,6 +28,28 @@ export default function TestimonialsSection() {
     }, 5000)
     return () => clearInterval(interval)
   }, [testimonials])
+
+  if (!backendOnline) {
+    return (
+      <section id="testimonials" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <span className="tech-badge mb-4 inline-block">Testimonials</span>
+            <h2 className="section-title">
+              What Clients <span className="gradient-text">Say</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Feedback from people I've worked with
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!testimonials || testimonials.length === 0) return null;
 

@@ -243,7 +243,7 @@ function ProjectEditModal({ project, onClose, onSubmit }) {
   )
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ backendOnline }) {
   const [projects, setProjects] = useState(null)
   const [activeCategory, setActiveCategory] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
@@ -256,6 +256,28 @@ export default function ProjectsSection() {
       if (Array.isArray(items)) setProjects(items)
     }).catch(() => { setProjects([]) })
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="projects" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <span className="tech-badge mb-4 inline-block">Portfolio</span>
+            <h2 className="section-title">
+              Featured <span className="gradient-text">Projects</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              A showcase of my recent work and contributions
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!projects || projects.length === 0) return null;
 

@@ -66,7 +66,7 @@ function ServiceCard({ service, index }) {
   )
 }
 
-export default function ServicesSection() {
+export default function ServicesSection({ backendOnline }) {
   const [services, setServices] = useState(null)
 
   useEffect(() => {
@@ -75,6 +75,28 @@ export default function ServicesSection() {
       if (Array.isArray(d)) setServices(d)
     }).catch(() => { setServices([]) })
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="services" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <span className="tech-badge mb-4 inline-block">Services</span>
+            <h2 className="section-title">
+              What I <span className="gradient-text">Offer</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Comprehensive development services to bring your digital vision to life
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!services || services.length === 0) return null;
 

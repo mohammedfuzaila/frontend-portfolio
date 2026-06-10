@@ -16,7 +16,7 @@ const cardColors = [
   'from-emerald-400 to-teal-500',
 ]
 
-export default function BlogSection() {
+export default function BlogSection({ backendOnline }) {
   const [blogs, setBlogs] = useState(null)
 
   useEffect(() => {
@@ -25,6 +25,28 @@ export default function BlogSection() {
       if (Array.isArray(d)) setBlogs(d.slice(0, 3))
     }).catch(() => { setBlogs([]) })
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="blog" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <span className="tech-badge mb-4 inline-block">Blog</span>
+            <h2 className="section-title">
+              Latest <span className="gradient-text">Insights</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Thoughts on development, design, and technology
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!blogs || blogs.length === 0) return null;
 

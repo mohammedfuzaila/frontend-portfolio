@@ -13,7 +13,7 @@ const contactInfo = [
 
 const iconMap = { github: Github, linkedin: Linkedin, twitter: Twitter, mail: Mail, phone: Phone }
 
-export default function ContactSection() {
+export default function ContactSection({ backendOnline }) {
   const [socials, setSocials] = useState([])
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [loading, setLoading] = useState(false)
@@ -22,6 +22,28 @@ export default function ContactSection() {
   useEffect(() => {
     fetchSocialLinks().then(({ data }) => setSocials(data?.results || data || [])).catch(() => {})
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="contact" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <span className="tech-badge mb-4 inline-block">Contact</span>
+            <h2 className="section-title">
+              Get In <span className="gradient-text">Touch</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Let's discuss your next project and build something amazing together
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 

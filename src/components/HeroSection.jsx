@@ -16,7 +16,7 @@ const fallbackHero = {
 
 const iconMap = { github: Github, linkedin: Linkedin, mail: Mail }
 
-export default function HeroSection() {
+export default function HeroSection({ backendOnline }) {
   const [hero, setHero] = useState(null)
   const [socials, setSocials] = useState([])
 
@@ -24,6 +24,34 @@ export default function HeroSection() {
     fetchHero().then(({ data }) => setHero(data || null)).catch(() => {})
     fetchSocialLinks().then(({ data }) => setSocials(data?.results || data || [])).catch(() => {})
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+        <div className="absolute inset-0 z-0 opacity-80 mix-blend-screen">
+          <HeroCanvas />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-16 flex flex-col items-center text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-6"
+          >
+            Hi, I'm <span className="gradient-text-purple">Fuzail</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="font-display text-xl sm:text-2xl font-semibold text-slate-400"
+          >
+            Full Stack Developer
+          </motion.p>
+        </div>
+      </section>
+    )
+  }
 
   if (!hero) return null;
 

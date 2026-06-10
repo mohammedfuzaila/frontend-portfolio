@@ -26,27 +26,31 @@ export default function HomePage() {
     show_blog: true,
     show_contact: true,
   })
+  const [backendOnline, setBackendOnline] = useState(false)
 
   useEffect(() => {
     fetchSettings().then(({ data }) => {
       if (data) setSettings(prev => ({ ...prev, ...data }))
-    }).catch(() => {})
+      setBackendOnline(true)
+    }).catch(() => {
+      setBackendOnline(false)
+    })
   }, [])
 
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        {settings.show_hero && <HeroSection />}
-        {settings.show_about && <AboutSection />}
-        {settings.show_skills && <SkillsSection />}
-        {settings.show_services && <ServicesSection />}
-        {settings.show_projects && <ProjectsSection />}
-        {settings.show_experience && <ExperienceSection />}
-        {settings.show_certificates && <CertificatesSection />}
-        {settings.show_testimonials && <TestimonialsSection />}
-        {settings.show_blog && <BlogSection />}
-        {settings.show_contact && <ContactSection />}
+        {settings.show_hero && <HeroSection backendOnline={backendOnline} />}
+        {settings.show_about && <AboutSection backendOnline={backendOnline} />}
+        {settings.show_skills && <SkillsSection backendOnline={backendOnline} />}
+        {settings.show_services && <ServicesSection backendOnline={backendOnline} />}
+        {settings.show_projects && <ProjectsSection backendOnline={backendOnline} />}
+        {settings.show_experience && <ExperienceSection backendOnline={backendOnline} />}
+        {settings.show_certificates && <CertificatesSection backendOnline={backendOnline} />}
+        {settings.show_testimonials && <TestimonialsSection backendOnline={backendOnline} />}
+        {settings.show_blog && <BlogSection backendOnline={backendOnline} />}
+        {settings.show_contact && <ContactSection backendOnline={backendOnline} />}
       </main>
       <Footer />
     </div>

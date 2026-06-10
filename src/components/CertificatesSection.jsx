@@ -131,7 +131,7 @@ function CertCard({ cert, index, onClick }) {
 }
 
 /* ── Main Section ────────────────────────────────────────── */
-export default function CertificatesSection() {
+export default function CertificatesSection({ backendOnline }) {
   const [certs, setCerts] = useState(null)
   const [selected, setSelected] = useState(null)
 
@@ -143,6 +143,28 @@ export default function CertificatesSection() {
   }, [])
 
   const handleClose = useCallback(() => setSelected(null), [])
+
+  if (!backendOnline) {
+    return (
+      <section id="certificates" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <span className="tech-badge mb-4 inline-block">Certificates</span>
+            <h2 className="section-title">
+              My <span className="gradient-text">Certifications</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              Click any certificate to view it in full — verified credentials and achievements
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!certs || certs.length === 0) return null
 

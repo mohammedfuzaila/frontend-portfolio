@@ -20,7 +20,7 @@ const fallback = [
   },
 ]
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ backendOnline }) {
   const [items, setItems] = useState(null)
 
   useEffect(() => {
@@ -29,6 +29,28 @@ export default function ExperienceSection() {
       if (Array.isArray(d)) setItems(d)
     }).catch(() => { setItems([]) })
   }, [])
+
+  if (!backendOnline) {
+    return (
+      <section id="experience" className="section bg-transparent relative overflow-hidden">
+        <div className="section-container relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <span className="tech-badge mb-4 inline-block">Journey</span>
+            <h2 className="section-title">
+              Experience & <span className="gradient-text">Education</span>
+            </h2>
+            <p className="section-subtitle mx-auto text-center">
+              My professional journey and academic background
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    )
+  }
 
   if (!items || items.length === 0) return null;
 
